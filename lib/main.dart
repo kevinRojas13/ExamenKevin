@@ -19,27 +19,39 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  double weight = 0.0; // Valor inicial del peso.
-  double height = 0.0; // Valor inicial de la altura.
-  double bmi = 0.0; // Variable para almacenar el resultado del IMC.
+  double weight = 0.0; // Valor inicial del peso
+  double height = 0.0; // Valor inicial de la altura
+  double bmi = 0.0; // Variable para almacenar el resultado del IMC
+
+  // Función para calcular el mensaje basado en el IMC.
+  String getIMCMessage(double bmi) {
+    if (bmi < 18.5) {
+      return "Malo";
+    } else if (bmi >= 18.5 && bmi <= 24.9) {
+      return "Bueno";
+    } else {
+      return "Regular";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth =
-        MediaQuery.of(context).size.width; // ancho de la pantalla.
+        MediaQuery.of(context).size.width; // Obtiene el ancho de la pantalla.
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculadora de IMC'),
+        title: Text('Calculadora de IMC'), // Título de la barra de navegación.
       ),
-      backgroundColor: Colors.white, // fondo de la pantalla.
+      backgroundColor:
+          Colors.white, // Establece el color de fondo de la pantalla.
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // Alineación de columna.
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Bienvenido, selecciona tu peso y altura', // Título
+              'Bienvenido, selecciona tu peso y altura',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -48,8 +60,7 @@ class _InputPageState extends State<InputPage> {
           ),
           // Sección de peso
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Alineación de elementos en fila.
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
                 'Peso:',
@@ -57,86 +68,79 @@ class _InputPageState extends State<InputPage> {
               ),
               SizedBox(width: 10),
               Align(
-                alignment: Alignment.center, // Alinea el texto al centro.
+                alignment: Alignment.center,
                 child: Text(
-                  '${weight.toStringAsFixed(1)} KG', // Muestra el peso actual.
+                  '${weight.toStringAsFixed(1)} KG',
                   style: TextStyle(fontSize: 18),
                 ),
               ),
             ],
           ),
           Slider(
-            value: weight, // Valor actual del peso en el Slider.
-            min: 0.0, // Valor mínimo del Slider.
-            max: 200.0, // Valor máximo del Slider.
+            value: weight,
+            min: 0.0,
+            max: 200.0,
             onChanged: (newValue) {
               setState(() {
-                weight =
-                    newValue; // Actualiza el valor del peso al mover el Slider.
+                weight = newValue;
               });
             },
-            activeColor: Colors.red, // Color de la barra del Slider.
+            activeColor: Colors.red,
           ),
-          SizedBox(height: 20), // Espacio vertical.
-
+          SizedBox(height: 20),
+          // Sección de altura
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Alineación de elementos en fila.
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Altura:', // Etiqueta de altura.
+                'Altura:',
                 style: TextStyle(fontSize: 18),
               ),
-              SizedBox(width: 10), // Espacio en blanco.
+              SizedBox(width: 10),
               Align(
-                alignment: Alignment.center, // Alinea el texto al centro.
+                alignment: Alignment.center,
                 child: Text(
-                  '${height.toStringAsFixed(1)} CM', // Muestra la altura actual.
+                  '${height.toStringAsFixed(1)} CM',
                   style: TextStyle(fontSize: 18),
                 ),
               ),
             ],
           ),
           Slider(
-            value: height, // Valor actual de la altura en el Slider.
-            min: 0.0, // Valor mínimo del Slider.
-            max: 250.0, // Valor máximo del Slider.
+            value: height,
+            min: 0.0,
+            max: 250.0,
             onChanged: (newValue) {
               setState(() {
-                height =
-                    newValue; // Actualiza el valor de la altura al mover el Slider.
+                height = newValue;
               });
             },
-            activeColor: Colors.red, // Color de la barra del Slider.
+            activeColor: Colors.red,
           ),
-          SizedBox(height: 20), // Espacio vertical.
+          SizedBox(height: 20),
           // Botón "Calcular" con cálculo de IMC
           Center(
             child: Container(
-              width: screenWidth / 2, // Ancho del conteinr
+              width: screenWidth / 2,
               child: ElevatedButton(
                 onPressed: () {
                   // Calcular el IMC
-                  double heightInMeters =
-                      height / 100; // Convertir altura a metros.
-                  double bmiResult = weight /
-                      (heightInMeters * heightInMeters); // Calcular IMC.
+                  double heightInMeters = height / 100;
+                  double bmiResult = weight / (heightInMeters * heightInMeters);
                   setState(() {
-                    bmi = bmiResult; // Almacenar el resultado del IMC.
+                    bmi = bmiResult;
                   });
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors
-                      .grey, // Cambia el color de fondo del botón "Calcular" a gris.
+                  primary: Colors.grey,
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // Alineación de elementos en fila.
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.calculate), // Icono para la insignia.
-                    SizedBox(width: 5), // Espacio en blanco.
+                    Icon(Icons.calculate),
+                    SizedBox(width: 5),
                     Text(
-                      'Calcular', // Texto del botón.
+                      'Calcular',
                       style: TextStyle(fontSize: 18),
                     ),
                   ],
@@ -144,12 +148,25 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
           ),
-          SizedBox(height: 20), // Espacio vertical.
+          SizedBox(height: 20),
           // Resultado del IMC
           Center(
             child: Text(
-              'Resultado del IMC: ${bmi.toStringAsFixed(2)}', // Muestra el resultado del IMC.
+              'Resultado del IMC: ${bmi.toStringAsFixed(2)}',
               style: TextStyle(fontSize: 18),
+            ),
+          ),
+          SizedBox(height: 20),
+          // Mostrar mensaje de IMC (Bueno, Malo, Regular)
+          Center(
+            child: Text(
+              getIMCMessage(bmi), // Utiliza la función para obtener el mensaje.
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors
+                    .blue, // Cambia el color del mensaje según el resultado.
+              ),
             ),
           ),
         ],
