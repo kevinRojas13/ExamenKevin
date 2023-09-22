@@ -34,17 +34,26 @@ class _InputPageState extends State<InputPage> {
     }
   }
 
+  // Función para obtener la ruta de la imagen según el resultado del IMC.
+  String getImagePath(String imcMessage) {
+    if (imcMessage == "Bueno") {
+      return "assets/images/bueno.png"; // IMAGEN
+    } else if (imcMessage == "Malo") {
+      return "assets/images/gordo.png"; // IMAGEN
+    } else {
+      return "assets/images/entrenando.png"; //IMAGEN
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth =
-        MediaQuery.of(context).size.width; // Obtiene el ancho de la pantalla.
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculadora de IMC'), // Título de la barra de navegación.
+        title: Text('Calculadora de IMC'),
       ),
-      backgroundColor:
-          Colors.white, // Establece el color de fondo de la pantalla.
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -58,7 +67,6 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
           ),
-          // Sección de peso
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -88,7 +96,6 @@ class _InputPageState extends State<InputPage> {
             activeColor: Colors.red,
           ),
           SizedBox(height: 20),
-          // Sección de altura
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -118,7 +125,6 @@ class _InputPageState extends State<InputPage> {
             activeColor: Colors.red,
           ),
           SizedBox(height: 20),
-          // Botón "Calcular" con cálculo de IMC
           Center(
             child: Container(
               width: screenWidth / 2,
@@ -169,6 +175,16 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
           ),
+          // Mostrar imagen según el resultado del IMC.
+          if (getIMCMessage(bmi) != "Regular")
+            Center(
+              child: Image.asset(
+                getImagePath(getIMCMessage(
+                    bmi)), // Utiliza la función para obtener la imagen.
+                width: 100, // Ancho de la imagen.
+                height: 100, // Alto de la imagen.
+              ),
+            ),
         ],
       ),
     );
