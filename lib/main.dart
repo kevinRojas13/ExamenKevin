@@ -27,21 +27,32 @@ class _InputPageState extends State<InputPage> {
   String getIMCMessage(double bmi) {
     if (bmi < 18.5) {
       return "Malo";
-    } else if (bmi >= 18.5 && bmi <= 24.9) {
-      return "Bueno";
+    } else if (bmi <= 24.9) {
+      return "Normal";
     } else {
-      return "Regular";
+      return "Sobrepeso";
     }
   }
 
   // Función para obtener la ruta de la imagen según el resultado del IMC.
   String getImagePath(String imcMessage) {
-    if (imcMessage == "Bueno") {
-      return "assets/images/bueno.png"; // IMAGEN
-    } else if (imcMessage == "Malo") {
-      return "assets/images/gordo.png"; // IMAGEN
+    if (imcMessage == "Normal") {
+      return "assets/images/bueno.png"; // Ruta de la imagen para "Normal"
+    } else if (imcMessage == "Sobrepeso") {
+      return "assets/images/gordo.png"; // Ruta de la imagen para "Sobrepeso"
     } else {
-      return "assets/images/entrenando.png"; //IMAGEN
+      return "assets/images/flaco.png"; // Ruta de la imagen para "Malo"
+    }
+  }
+
+  // Función para obtener un comentario según el resultado del IMC.
+  String getIMCComment(String imcMessage) {
+    if (imcMessage == "Normal") {
+      return "¡Tu peso es normal! ¡Sigue así!";
+    } else if (imcMessage == "Sobrepeso") {
+      return "Tienes sobrepeso. Consulta a un médico.";
+    } else {
+      return "Tienes un IMC bajo. Consulta a un médico.";
     }
   }
 
@@ -163,7 +174,7 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           SizedBox(height: 20),
-          // Mostrar mensaje de IMC (Bueno, Malo, Regular)
+          // Mostrar mensaje de IMC (Sobrepeso, Normal, Malo)
           Center(
             child: Text(
               getIMCMessage(bmi), // Utiliza la función para obtener el mensaje.
@@ -176,13 +187,27 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           // Mostrar imagen según el resultado del IMC.
-          if (getIMCMessage(bmi) != "Regular")
+          if (getIMCMessage(bmi) != "Normal")
             Center(
-              child: Image.asset(
-                getImagePath(getIMCMessage(
-                    bmi)), // Utiliza la función para obtener la imagen.
-                width: 100, // Ancho de la imagen.
-                height: 100, // Alto de la imagen.
+              child: Column(
+                children: [
+                  Image.asset(
+                    getImagePath(getIMCMessage(
+                        bmi)), // Utiliza la función para obtener la imagen.
+                    width: 150, // Ancho de la imagen ajustado.
+                    height: 150, // Alto de la imagen ajustado.
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    getIMCComment(getIMCMessage(
+                        bmi)), // Muestra el comentario según el resultado del IMC.
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
         ],
